@@ -1,14 +1,6 @@
----
-title: "January 2023 CTS Viz of the Month"
-author: "Emma Spielfogel"
-date: "2023-01-28"
-output:
-  html_document:
-    theme: cerulean
-    highlight: tango
-    keep_md: TRUE
----
-
+# January 2023 CTS Viz of the Month
+Emma Spielfogel
+2023-01-28
 
 
 ### Packages used
