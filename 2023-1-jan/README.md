@@ -1,27 +1,34 @@
-January 2023 CTS Viz of the Month
-================
-Emma Spielfogel
-2023-01-28
+---
+title: "January 2023 CTS Viz of the Month"
+author: "Emma Spielfogel"
+date: "2023-01-28"
+output:
+  html_document:
+    theme: cerulean
+    highlight: tango
+    keep_md: TRUE
+---
+
+
 
 ### Packages used
 
-``` r
+```r
 library(tidyverse)
 ```
 
 ### Description of inputs
 
-- Data
-  - A data frame called “publications” where each unique combination of
-    publication ID & publication topic area is a row
-- Variables
-  - year_of_publication: year publication was published
-  - topic_area: the topic area of the publication; may be more than 1
-    per publication
+* Data
+    + A data frame called "publications" where each unique combination of publication ID & publication topic area is a row
+
+* Variables
+    + year_of_publication: year publication was published
+    + topic_area: the topic area of the publication; may be more than 1 per publication
 
 ### Visualization code
 
-``` r
+```r
 publications %>%
   group_by(topic_area,year_of_publication) %>%
   summarise(counts_topic_in_year=n()) %>% 
@@ -53,3 +60,9 @@ publications %>%
        x = "\nYear of Publication",
        y = "")
 ```
+
+##### Files in this folder:
+
+- .png file: image of the viz of the month
+- .Rmd file: the code used to create this document
+- .html file: a downloadable version of this document
