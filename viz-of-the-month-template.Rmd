@@ -1,0 +1,40 @@
+---
+title: "Month YYYY CTS Viz of the Month"
+author: "Author Name"
+date: "YYYY-MM-DD"
+output:
+  html_document:
+    theme: cerulean
+    highlight: tango
+    keep_md: TRUE
+---
+
+```{r setup, echo=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Packages used
+```{r packages, eval=FALSE}
+# list packages here
+library()
+```
+
+### Description of inputs
+
+* Data
+    + Description of data needed
+
+* Variables
+    + variable 1: description of variable 1
+    + variable 2: description of variable 2...
+
+### Visualization code
+```{r viz, eval=FALSE}
+# insert visualization code (for example ggplot code) here
+```
+
+##### Files in this folder:
+
+- .png file: image of the viz of the month
+- .Rmd file: the code used to create this document
+- .html file: a downloadable version of this document

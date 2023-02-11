@@ -1,0 +1,95 @@
+---
+title: "CTS population maps"
+author: "Danielle Medgyesi"
+date: "02/07/2023"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+### Packages used
+
+```{r setup, warning=FALSE, message=FALSE}
+
+library(tidyverse)
+library(ggplot2)
+library(sf)
+library(viridis)
+library(Hmisc)
+
+```
+
+
+### Description of inputs
+
+* Data
+  + CTS dataframe of County FIPS codes for 124,685 participants living in California at baseline. *Must request access to the data, which can be stored and viewed only in the CTS Data Commons.*
+  + Shapefile of California county boundaries, Census 1990. *See subfolder "county_boundaries".*
+  
+* Variables
+  + CensusCountyFips: county FIP code of participant's address at baseline
+  + N: Number of participants living in each county 
+
+
+
+### Count the number of participants in each county 
+
+```{r}
+
+#Address data requires special permission 
+#Only to be viewed and analyzed in CTS secured data commons
+#baseline_county<-  read.csv() 
+
+
+baseline_county<- baseline_county %>% 
+                      group_by(CensusCountyFips) %>% 
+                      summarise(N=n(), Percent=round(100*(n()/nrow(.)),2))
+
+
+```
+
+
+### Merge with shapefile of California county boundaries 
+
+```{r}
+
+
+county<- st_read(dsn="county_boundaries", quiet=TRUE)
+
+
+county_pop_sf<- county  %>% left_join(baseline_county, by=c("CO"="CensusCountyFips"))
+
+
+```
+
+### Visualization code 
+
+```{r fig.width=5, fig.height=5}
+
+# number of participants categorized 
+county_pop_sf<- county_pop_sf %>% 
+  mutate(N_cat= cut2(N, cuts = c(100,300,500, 700, 1500, 3000, 7000, 10000)))
+
+ggplot(county_pop_sf)+geom_sf(mapping=aes(fill=N_cat), color=NA)+ 
+  scale_fill_viridis(discrete = TRUE, option = "plasma", direction = -1, 
+                     labels=c("<100", "100-<300", "300-<500", "500-<700", "700-<1500",
+                              "1500-<3000", "3000-<7000", ">10000"), 
+                     name="Participants")+
+  theme(axis.text = element_blank(), 
+        axis.title =element_blank(),
+        plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5),
+        axis.ticks=element_blank(), 
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(), 
+        panel.background = element_blank(), 
+        plot.caption = element_text(hjust = 0), 
+        legend.position = c(0.9,0.67), 
+        legend.background = element_blank())+
+  labs(title="CTS county population at baseline (1995-1996)", 
+       caption = "Total participants= 124,685\n\nDesign: Danielle Medgyesi | dm3688@cumc.columbia.edu")
+
+ggsave("CTS_county_pop_map_viz.png",width = 5, height = 5)
+
+
+```
