@@ -1,0 +1,78 @@
+---
+title: "April 2023 CTS Viz of the Month"
+author: "Emma Spielfogel"
+date: "2023-04-18"
+output:
+  html_document:
+    theme: cerulean
+    highlight: tango
+    keep_md: TRUE
+---
+
+
+
+### Packages used
+
+```r
+library(tidyverse)
+library(rnaturalearth)
+library(sf)
+library(ggsflabel)
+```
+
+### Description of inputs
+
+* Data
+    + A data frame called "cts_researcher_universities" containing the latitude and longitude of the researcher institutions and institution names
+    + A data frame called "usa" containing coordinate data for a background map
+
+* Variables
+    + geometry: the geospatial location of each institution, ascertained from the latitude and longitude
+    + institution: the name of the research institution as it should appear on the label
+
+### Visualization code
+
+```r
+# Code to get coordinate data for background map of continental USA
+usa <- ne_states(country = "united states of america", returnclass = "sf") %>% 
+  filter(! name %in% c("Alaska","Hawaii"))
+
+# Code to get institution geometry from latitude and longitude
+institutions <- cts_researcher_universities %>% 
+  st_as_sf(coords=c("longitude","latitude"), crs=4326) %>% 
+  st_transform() %>%
+  group_by(institution) %>% 
+  summarize(count = n())
+
+# Visualization code
+ggplot() +
+  geom_sf(data = usa,
+          fill = "lightgrey",
+          color = "grey",
+          alpha = 0.3) +
+  geom_sf(data = institutions, 
+          aes(geometry = geometry,
+              color = "#009ED8", fill = "#009ED8"),
+              shape=21,
+              size = 2,
+              color="white",
+              fill="#009ED8",
+              show.legend=FALSE) +
+  geom_sf_label_repel(data = institutions,
+               aes(label = institution),
+               max.overlaps = 40,
+               color = "#006990",
+               segment.color="#009ED8",
+               size = 1.8,
+               min.segment.length=0) +
+  theme_void() +
+  labs(title = "CTS Researcher Institutions in the US",
+       y = "",
+       x = "")
+```
+
+##### Files in this folder:
+
+- .png file: image of the viz of the month
+- .Rmd file: the code used to create this document
+- .html file: a downloadable version of this document
