@@ -1,15 +1,6 @@
----
-title: "May 2023 CTS Viz of the Month"
-author: "Kristen Savage"
-date: "2023-05-05"
-output:
-  html_document:
-    theme: cerulean
-    highlight: tango
-    keep_md: TRUE
----
-
-
+# May 2023 CTS Viz of the Month
+Kristen Savage
+2023-05-05
 
 ### Packages used
 
