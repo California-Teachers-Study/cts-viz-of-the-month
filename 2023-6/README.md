@@ -1,15 +1,6 @@
----
-title: "June 2023 CTS Viz of the Month"
-author: "Emma Spielfogel"
-date: "2023-06-26"
-output:
-  html_document:
-    theme: cerulean
-    highlight: tango
-    keep_md: TRUE
----
-
-
+# June 2023 CTS Viz of the Month
+Emma Spielfogel
+2023-06-26
 
 ### Packages used
 
@@ -31,8 +22,8 @@ library(waffle)
 
 ```r
 # Input data
-age_groups_at_baseline <- c("Under 40" = 22121,	"40-49" = 33492,	"50-59" = 31784,	"60-69" = 23073,	
-               "70-79" = 15949,	"80-89" = 6378,	"90+" = 680)
+age_groups_at_baseline <- c("Under 40" = 22121,	"40-49" = 33492,	"50-59" = 31784,
+                            "60-69" = 23073, "70-79" = 15949,	"80-89" = 6378,	"90+" = 680)
 
 # Create waffle chart
 waffle(age_groups_at_baseline/500, rows=11, size=0.6,
