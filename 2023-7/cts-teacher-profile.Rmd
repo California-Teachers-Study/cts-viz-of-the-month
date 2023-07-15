@@ -1,0 +1,73 @@
+---
+title: "July 2023 CTS Viz of the Month"
+author: "Emma Spielfogel"
+date: "2023-07-17"
+output:
+  html_document:
+    theme: cerulean
+    highlight: tango
+    keep_md: TRUE
+---
+
+```{r setup, echo=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Packages used
+```{r packages, eval=FALSE}
+library(tidyverse)
+library(waffle)
+library(hrbrthemes)
+```
+
+### Description of inputs
+
+* Data
+    + A dataframe called "teachtype" where each unique combination of employment type, years  & count of participants is a row
+
+* Variables
+    + TeacherType: a categorical variable describing the types of employment in schools
+    + SchoolYears: an ordinal variable representing the 5 groupings of years participants were employed in schools. SchoolYears_Label is used to apply descriptive labels to the axis.
+    + Values: the number of participants in each TeacherType and SchoolYears category. This variable is divided by 100 in the ggplot code such that each circle represents 100 participants.
+
+* Inspiration & more about the waffle package:
+    + https://rud.is/rpubs/building-waffle-charts.html
+
+
+### Visualization code
+```{r viz, eval=FALSE}
+teachtype %>% 
+  ggplot(aes(fill = TeacherType,
+             Values = N/100)) +
+  geom_waffle(color = "white",
+              size = .2,
+              n_rows = 10,
+              flip = TRUE,
+              na.rm=FALSE, 
+              radius = unit(4.7, "pt")) +
+  facet_wrap(~(fct_reorder(SchoolYears_Label,SchoolYears)),
+             nrow = 1,
+             strip.position = "bottom") +
+  scale_x_discrete() +
+  scale_y_continuous(labels = function(x) x * 1000,
+                     expand = c(0,0)) +
+  ggthemes::scale_fill_few() +
+  coord_equal() +
+  labs(
+    title = "California Teachers Study Employment Profile",
+    subtitle = "at study enrollment",
+    x = "Years Working in CA School System",
+    y = "Number of Participants\n",
+    fill = "Employment") +
+  theme_minimal(base_family = "Times New Roman") +
+  theme(legend.position = "right",
+        panel.grid = element_blank(),
+        axis.ticks.y = element_line()) +
+  guides(fill = guide_legend(reverse = TRUE))
+```
+
+##### Files in this folder:
+
+- .png file: image of the viz of the month
+- .Rmd file: the code used to create this document
+- .html file: a downloadable version of this document
