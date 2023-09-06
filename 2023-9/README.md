@@ -4,8 +4,6 @@ Emma Spielfogel
 
 ### Packages used
 
-### Packages used
-
 ```r
 library(readxl)
 library(tidyverse)
