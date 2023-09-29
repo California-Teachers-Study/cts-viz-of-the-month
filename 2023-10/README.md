@@ -1,0 +1,104 @@
+# October 2023 CTS Viz of the Month
+Emma Spielfogel
+2023-10-02
+
+### Packages used
+
+```r
+library(scales)
+library(tidyverse)
+library(janitor)
+library(ggthemes)
+library(patchwork)
+```
+
+### Description of inputs
+
+* Data
+    + A dataframe called "cancer_data" where each row is the unique combination of cancer type, year of diagnosis and count of cases
+
+* Variables
+    + cancer_site: the cancer type
+    + year_of_diagnosis: the year of cancer diagnosis
+    + n: the sum of cancer diagnoses in that year for a particular cancer site
+
+### Visualization code
+
+```r
+# Data preparation: create cumulative yearly counts by site
+counts <- cancer_data %>%
+  group_by(cancer_site,year_of_diagnosis) %>% 
+  summarise(frequency = sum(n)) %>%
+  mutate(cumulative_sum=cumsum(frequency)) %>% 
+  ungroup()
+
+# Data preparation: create total yearly counts for use as a text label
+frequency_totals <- cancer_data %>% 
+  group_by(year_of_diagnosis) %>% 
+  summarise(year_total = sum(n)) %>% 
+  ungroup()
+
+# Data preparation: get the total cumulative count of cancers for use as a text label
+total_cancers <- counts %>% 
+  summarise(total_cumulative = sum(frequency))
+
+# Visualization code: cancer frequencies
+freq_chart <- counts %>% 
+  ggplot(aes(x=year_of_diagnosis)) +
+  geom_bar(aes(y=frequency, fill=reorder(cancer_site,frequency)), stat="identity") +
+  scale_fill_tableau(palette = "Tableau 20") +
+  geom_text(data=frequency_totals,aes(y=year_total, label = year_total),
+            color = "black",
+            family = "serif",
+            vjust = -1,
+            size = 3.5) +
+  scale_x_continuous(breaks = c(1995, 2000,2005, 2010, 2015, 2020)) +
+  scale_y_continuous(limits = c(0, 1575)) +
+  labs(title = "Cancers in the CTS Over Time by Cancer Type",
+       subtitle = "Annual counts and cumulative total",
+       x = "",
+       y = "Number of Cancers\n",
+       fill = "Cancer type") +
+  theme_tufte(base_size = 16) +
+  theme(legend.position="top")
+
+# Visualization code: cumulative frequencies
+cumulative_chart <- counts %>% 
+  ggplot() +
+  geom_bar(aes(x=year_of_diagnosis,y=cumulative_sum, fill=reorder(cancer_site,cumulative_sum)), stat="identity",
+           show.legend = FALSE) +
+  scale_fill_tableau(palette = "Tableau 20") +
+  geom_text(data=total_cum,aes(x=2020,y=total_cumulative, label = paste0(comma(total_cumulative),
+                                                                         "\ntotal cancers")),
+            color = "black",
+            family = "serif",
+            vjust = -.2,
+            size = 4.2) +
+  scale_x_continuous(breaks = c(1995, 2000,2005, 2010, 2015, 2020)) +
+  scale_y_continuous(limits = c(0, 40000)) +
+  labs(title = "",
+       x = "\nYear of Diagnosis",
+       y = "Cumulative Number of Cancers\n",
+       fill = "Cancer site")+
+  theme_tufte(base_size = 16)
+
+# Create a layout for putting both charts together
+layout <- "
+AAAA
+AAAA
+AAAA
+BBBB
+BBBB
+BBBB
+"
+
+# Combine the two charts
+output <- freq_chart + cumulative_chart  +
+  plot_layout(design=layout)
+```
+
+##### Files in this folder:
+
+- .png file: image of the viz of the month
+- .Rmd file: the code used to create this document
+- .html file: a downloadable version of this document
