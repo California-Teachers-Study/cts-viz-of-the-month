@@ -1,0 +1,63 @@
+# February 2024 CTS Viz of the Month
+Kristen Savage
+2024-02-02
+
+### Packages used
+
+```r
+# list packages here
+library(ggplot2)
+library(ggtext)
+```
+
+### Description of inputs
+
+* Data
+    + A data frame called "happy_data" that stores responses to the same question at two points in time (in this case, questionnaire 1 and questionnaire 6). Each row captures a survey response option and the proportion of respondents that selected that answer at two different points in time.
+
+* Variables
+    + answer:the answer choices as text
+    + q1: the % (as a number) of participants who selected each answer choice at questionnaire 1
+    + q6: the % (as a number) of participants who selected each answer choice at questionnaire 6
+
+### Visualization code
+
+```r
+happy_data %>% 
+  ggplot() +
+  geom_segment( aes(x=answer, xend=answer, y=q1, yend=q6), color= "#BFDBF7") +
+  geom_point( aes(x=answer, y=q1), color="#DC9E82", size=12 ) +
+  geom_point( aes(x=answer, y=q6), color="#1F7A8C", size=12 ) +
+  coord_flip()+
+  theme_minimal() +
+  theme(plot.title = element_markdown(face = "bold", size = 13, vjust = -2),
+        plot.subtitle = element_text(face = "italic", vjust = -3),
+        axis.text.x = element_blank(),
+        axis.text.y = element_text(face = "bold", size = 10, color = "#030027"),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank())+
+  ggtitle("How happy were participants at <br><span style = 'color: #DC9E82;'>study enrollment (1995-1996)</span> vs. at <span style = 'color: #1F7A8C'>questionnaire 6 (2017-2019)</span>?",
+          subtitle = "All in all, how happy are you these days?")+
+    xlab("")+
+  ylab("")+
+  annotate(geom="text", x = 0.8, y=55, label="% of respondents",
+              color="black", fontface = "italic")+
+  annotate(geom="text", x="very happy", y=49, label="49",
+              color="white", fontface = "bold")+
+  annotate(geom="text", x="very happy", y=59, label="59",
+              color="white", fontface = "bold")+
+  annotate(geom="text", x="somewhat happy", y=36, label="36",
+              color="white", fontface = "bold")+
+  annotate(geom="text", x="somewhat happy", y=33, label="33",
+              color="white", fontface = "bold")+
+  annotate(geom="text", x="not very happy", y=4.7, label="4",
+              color="white", fontface = "bold")+
+  annotate(geom="text", x="not very happy", y=2, label="2",
+              color="white", fontface = "bold") 
+```
+
+##### Files in this folder:
+
+- .png file: image of the viz of the month
+- .Rmd file: the code used to create this document
+- .html file: a downloadable version of this document
