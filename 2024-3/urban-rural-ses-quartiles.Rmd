@@ -1,0 +1,59 @@
+---
+title: "March 2024 CTS Viz of the Month"
+author: "Kristen Savage"
+date: "2024-03-01"
+output:
+  html_document:
+    theme: cerulean
+    highlight: tango
+    keep_md: TRUE
+---
+
+```{r setup, echo=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Packages used
+```{r packages, eval=FALSE}
+library(treemap)
+library(tidyverse)
+```
+
+### Description of inputs
+
+* Data
+    + A dataframe called "ses_data" that captures the percent of urban and rural participants that belong to each socioeconomic category (or quartile) as well as the color for each socioeconomic category
+    
+* Variables
+    + group: urban or rural status at cancer diagnosis as text
+    + ses_cat: a socioeconomic quartile variable, where 1 is the lowest quartile and 4 is the highest quartile
+    + value: a numeric value that stores the percent of participants that fall into each group and ses_cat combination (i.e. the percent of rural participants in quartile 1)
+    + color: the color you want for each ses_cat in your treemap 
+
+### Visualization code
+```{r viz, eval=FALSE}
+ses_data %>% 
+   treemap(index = c("group","ses_cat"),
+           vSize ="value",
+           vColor = "color",
+           type ="color",
+           title = "Socieconomic Quartiles of Rural and Urban Participants with Cancer",
+           fontsize.title = 16,
+           fontsize.labels = c(14,12),
+           border.col = c("white","white"),
+           border.lwds = c(8,2),
+           bg.labels= 0,
+           align.labels=list(
+              c("left", "top"), 
+              c("right", "bottom")),
+           inflate.labels = F,
+           algorithm="pivotSize",
+           sortID="ses_cat"
+   )
+```
+
+##### Files in this folder:
+
+- .png file: image of the viz of the month
+- .Rmd file: the code used to create this document
+- .html file: a downloadable version of this document
