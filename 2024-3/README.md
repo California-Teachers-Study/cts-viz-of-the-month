@@ -28,7 +28,7 @@ ses_data %>%
            vSize ="value",
            vColor = "color",
            type ="color",
-           title = "Socieconomic Quartiles of Rural and Urban Participants with Cancer",
+           title = "Socioeconomic Quartiles of Rural and Urban Participants with Cancer",
            fontsize.title = 16,
            fontsize.labels = c(14,12),
            border.col = c("white","white"),
