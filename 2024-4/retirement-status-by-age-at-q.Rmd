@@ -1,0 +1,54 @@
+---
+title: "April 2024 CTS Viz of the Month"
+author: "Emma Spielfogel"
+date: "2024-04-04"
+output:
+  html_document:
+    theme: cerulean
+    highlight: tango
+    keep_md: TRUE
+---
+
+```{r setup, echo=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Packages used
+```{r packages, eval=FALSE}
+library(tidyverse)
+```
+
+### Description of inputs
+
+* Data
+    + A long dataframe called "retirement_at_questionnaire" where each row contains a participant, the follow-up questionnaire name, their age at that questionnaire, and their retirement status as reported on that questionnaire. Each participant has as many rows in the data as relevant questionnaires they completed.
+    
+* Variables
+    + Retirement_Status: the retirement status of the participant
+    + Age_at_Questionnaire: the age of the participant at the time of the questionnaire which asked about retirement
+    + Questionnaire: the name of the follow-up questionnaire (i.e. Q3, Q4, Q5) 
+
+### Visualization code
+```{r viz, eval=FALSE}
+retirement_at_questionnaire %>%
+  ggplot(aes(x=Retirement_Status,
+             y=Age_at_Questionnaire)) +
+  geom_violin(fill="darkgreen",
+              color = "darkgreen",
+              alpha = 0.5) +
+  facet_grid(~Questionnaire) +
+  labs(title = "Retirement status by age at CTS questionnaire",
+       x = "\nRetirement Status",
+       y = "Age at Questionnaire\n") +
+  theme_bw() +
+  theme(text = element_text(family = "Palatino", size = 16),
+        axis.text.y = element_text(size = 16),
+        strip.background = element_rect(fill="#ad95b5"),
+        plot.background = element_rect(fill = "#adbecf"))
+```
+
+##### Files in this folder:
+
+- .png file: image of the viz of the month
+- .Rmd file: the code used to create this document
+- .html file: a downloadable version of this document
