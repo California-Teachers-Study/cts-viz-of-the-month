@@ -1,0 +1,74 @@
+# May 2024 CTS Viz of the Month
+Kristen Savage
+2024-05-05
+
+### Packages used
+
+```r
+library(tidyverse)
+library(ggplot2)
+```
+
+### Description of inputs
+
+* Data
+    + A dataframe called family_history where each cell is a unique count of the cases for that specific health condition among that family relation
+
+* Variables
+    + condition: the list of conditions in your dataset
+    + mom: a column that captures the count of maternal cases reported for each respective health condition
+    + dad: a column that captures the count of paternal cases reported for each respective health condition
+    + grandma: a column that captures the count of cases reported for each respective health condition among participants' material and/or paternal grandma
+    + grandpa: a column that captures the count of cases reported for each respective health condition among participants' material and/or paternal grandpa
+    + sister: a column that captures the count of sibling (sister-only) cases reported for each respective health condition
+    + brother: a column that captures the count of sibling (brother-only) cases reported for each respective health condition
+    + daughter: a column that captures the count of cases reported for each respective health condition among participants' daughters
+    + son: a column that captures the count of cases reported for each respective health condition among participants' sons
+
+### Visualization code
+
+```r
+# pivot data for visualization purposes
+family_history <- family_history %>% 
+  pivot_longer(cols = !condition, names_to = "relation", values_to = "value") 
+
+# create scatterplot
+family_history %>% 
+ggplot(aes(x = relation, 
+           y = forcats::fct_rev(factor(condition)), 
+           fill = value, 
+           size = value)) +
+  geom_point(shape = 21, stroke = 0, stat = 'identity') +
+  scale_x_discrete(limit= c('mom', 'dad', 'grandma', 'grandpa', 'sister', 
+                            'brother', 'daughter', 'son'))+
+  scale_radius(range = c(1, 10)) +
+  scale_fill_gradient(low = "orange", high = "blue", 
+                      breaks = c(0, 20000, 42000),
+                      labels = c("0", "20K", "40K"),
+                      limits = c(0, 42000)) +
+  theme_minimal() +
+  theme(legend.position = "bottom", 
+        panel.grid.major = element_blank(),
+        legend.text = element_text(size = 8),
+        legend.title = element_text(size = 8)) +
+  guides(size = guide_legend(override.aes = list(fill = NA, color = "black", 
+                                                 stroke = .25), 
+                             label.position = "bottom",
+                             title.position = "bottom", 
+                             order = 1),
+         fill = guide_colorbar(ticks.colour = NA, 
+                               label.position = "bottom",
+                               title.position = "bottom", 
+                               order = 2)) +
+  labs(title = "Family Health Conditions Reported at Baseline",
+       size = "Number of Participants", 
+       fill = NULL, 
+       x = NULL, 
+       y = NULL) 
+```
+
+##### Files in this folder:
+
+- .png file: image of the viz of the month
+- .Rmd file: the code used to create this document
+- .html file: a downloadable version of this document
