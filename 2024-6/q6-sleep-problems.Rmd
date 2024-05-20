@@ -1,0 +1,74 @@
+---
+title: "June 2024 CTS Viz of the Month"
+author: "Emma Spielfogel"
+date: "2024-06-06"
+output:
+  html_document:
+    theme: cerulean
+    highlight: tango
+    keep_md: TRUE
+---
+
+```{r setup, echo=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Packages used
+```{r packages, eval=FALSE}
+library(tidyverse)
+library(ggtext)
+```
+
+### Description of inputs
+
+* Data
+    + A dataframe called q6_sleep where each row is a survey question with a yes/no answer, containing a column for the rate of "yes" responses to each survey question
+
+* Variables
+    + sleep_problem: a column where each row corresponds to a yes/no survey question, in this case about sleep-related problems
+    + yes_rate: the rate of "yes" responses to each sleep-related problems survey question
+
+### Visualization code
+```{r viz, eval=FALSE}
+# prepare data for visualization
+q6_code <- q6_sleep %>% 
+  mutate(
+    no_rate = 1 - yes_rate,
+    sleep_problem = fct_reorder(sleep_problem, yes_rate)
+  ) %>%
+  pivot_longer(
+    cols = -sleep_problem,
+    names_to = 'answer',
+    names_pattern = '(.+)_rate',
+    values_to = 'percentage'
+  )
+
+# create chart
+q6_code %>% 
+  ggplot(aes(y = sleep_problem, x = percentage, fill = answer)) +
+  geom_col(show.legend = FALSE) +
+  theme_minimal(base_size = 18, base_family = 'Tahoma') +
+  theme(
+    plot.title.position = 'plot',
+    panel.grid.minor = element_blank(),
+    panel.grid.major.y = element_blank(),
+    plot.caption = element_markdown(size=10, color="gray30",hjust=0)
+  ) +
+  labs(
+    x = element_blank(), 
+    y = element_blank(),
+    title = 'Percent of participants who said they:',
+    caption = "Sleep questions from the 6th CTS questionnaire"
+  ) +
+  scale_x_continuous(labels = scales::label_percent()) +
+  scale_fill_manual(
+    values = c('yes' = '#5FB6C7'),
+    na.value = 'grey95'
+  )
+```
+
+##### Files in this folder:
+
+- .png file: image of the viz of the month
+- .Rmd file: the code used to create this document
+- .html file: a downloadable version of this document
