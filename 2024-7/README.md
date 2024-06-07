@@ -1,18 +1,8 @@
----
-title: "July 2024 CTS Viz of the Month"
-author: "Emma Spielfogel"
-date: "2024-07-07"
-output:
-  html_document:
-    theme: cerulean
-    highlight: tango
-    keep_md: TRUE
----
-
-
+# July 2024 CTS Viz of the Month
+Emma Spielfogel
+2024-07-07
 
 ### Packages used
-
 
 ```r
 library(tidyverse)
