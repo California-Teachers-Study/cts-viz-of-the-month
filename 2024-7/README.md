@@ -1,6 +1,15 @@
-# July 2024 CTS Viz of the Month
-Emma Spielfogel
-2024-07-07
+---
+title: "July 2024 CTS Viz of the Month"
+author: "Emma Spielfogel"
+date: "2024-07-07"
+output:
+  html_document:
+    theme: cerulean
+    highlight: tango
+    keep_md: TRUE
+---
+
+
 
 ### Packages used
 
@@ -121,6 +130,8 @@ animate(cts_county_animation, nframes = 24, fps = 1,
 # Save animation as a gif
 anim_save("2024-7/CA_moves_by_county_over_followup.gif")
 ```
+
+![](CA_moves_by_county_over_followup.gif)
 
 ### Additional Resources
 

@@ -131,6 +131,8 @@ animate(cts_county_animation, nframes = 24, fps = 1,
 anim_save("2024-7/CA_moves_by_county_over_followup.gif")
 ```
 
+![](CA_moves_by_county_over_followup.gif)
+
 ### Additional Resources
 
 [How to Plot and Animate Data on Maps Using the R Programming Language](https://conservancy.umn.edu/server/api/core/bitstreams/ba6ea265-c865-48d2-bcf4-e287542efd9a/content)
