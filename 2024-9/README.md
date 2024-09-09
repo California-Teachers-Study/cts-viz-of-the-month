@@ -1,0 +1,74 @@
+# September 2024 CTS Viz of the Month
+Kristen Savage
+2024-09-09
+
+### Packages used
+
+``` r
+library(tidyverse)
+```
+
+### Description of inputs
+
+* Data
+    + A dataframe called "exposures_outcomes" that captures the relevant topic areas for each of your study publications.
+
+* Variables
+    + exposure: the risk factor or exposure the publication is focused on. 
+    + outcome: the health condition the publication is focused on.
+    + title: for tracking purposes your dataframe may already contain the publication title or other variables; those variables will be dropped when we format the data to count outcome-exposure pairs. 
+
+### Visualization code
+
+``` r
+# format data for viz
+exp_out_df <- exposures_outcomes %>% 
+  select(outcome, exposure) %>% 
+  group_by(outcome, exposure) %>% 
+  mutate(count = n()) %>% 
+  unique()
+
+# create viz
+exp_out_df %>% 
+  ggplot(aes(x = exposure,
+             y = outcome,
+             fill = count))+
+  geom_tile(color = "white",
+            lwd = 1.5,
+            linetype = 1) +
+  coord_fixed()+
+  scale_fill_distiller(palette = "PuBuGn", trans = "reverse") +
+  scale_x_discrete(guide = guide_axis(angle = 90))+
+  scale_y_discrete(limits = c("Thyroid Cancer", 
+                              "Pancreatic Cancer",
+                              "Ovarian Cancer",
+                              "Other",
+                              "Non-Hodgkin Lymphoma", 
+                              "Multiple Myeloma",
+                              "Mental Health",
+                              "Macular Degeneration", 
+                              "Lung Cancer",
+                              "Kidney Cancer", 
+                              "Head and Neck Cancer",
+                              "Endometriosis",
+                              "Endometrial Cancer",
+                              "Colorectal Cancer",
+                              "Cardiovascular Disease",
+                              "Breast Cancer", 
+                              "Bladder Cancer"))+
+  theme_minimal()+
+  theme(plot.title = element_text(size=14, color = "#02818a", face='bold', hjust = 0.5),
+        axis.title=element_text(face='bold'))+
+  guides(fill = guide_colourbar(barwidth = 1,
+                                barheight = 9,
+                                title = "Count"))+
+  labs(title = "Most Common Topics Across CTS Publications",
+       x ="Risk Factors", 
+       y = "Health Outcomes")
+```
+
+##### Files in this folder:
+
+- .png file: image of the viz of the month
+- .Rmd file: the code used to create this document
+- .html file: a downloadable version of this document
