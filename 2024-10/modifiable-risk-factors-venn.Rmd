@@ -1,0 +1,73 @@
+---
+title: "October 2024 CTS Viz of the Month"
+author: "Emma Spielfogel"
+date: "2024-10-10"
+output:
+  html_document:
+    theme: cerulean
+    highlight: tango
+    keep_md: TRUE
+---
+
+```{r setup, echo=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Packages used
+```{r packages, eval=FALSE}
+library(tidyverse)
+library(ggvenn)
+library(ggtext)
+```
+
+### Description of inputs
+
+* Data
+    + A dataframe called "venndata" that includes modifiable risk factors as boolean (True/False) values for each participant
+
+* Variables
+    + no_exercise: a variable containing 1 or TRUE for each participant who reported no exercise and 0 or FALSE for those who reported any exercise
+    + ever_smoker: a variable containing 1 or TRUE for each participant who reported ever smoking and 0 or FALSE for those who reported never smoking
+
+### Visualization code
+```{r viz, eval=FALSE}
+
+# change variables which were in 0=No, 1=Yes format into boolean (T/F) format
+venndata <- data_in %>%
+  select(ever_smoker,no_exercise) %>% 
+  mutate(across(c(ever_smoker,no_exercise), as.logical))
+
+# set names for circles
+Names <- c("No Exercise","Ever Smoker")
+
+# create scaled venn diagram
+venndiagram <- venndata %>% 
+  ggplot() +
+  theme_void(base_size = 12, base_family="Palatino") +
+  geom_venn(aes(A = no_exercise, B = ever_smoker),
+            set_names = Names,
+            fill_color = c("#0073C2FF", "#EFC000FF"),
+            stroke_size = 0.5,
+            set_name_color = c("#0073C2FF", "#EFC000FF"),
+            show_outside = "always",
+            auto_scale = TRUE) +
+  annotate("text",x=-.8,y =-1.9,
+           label = "participants in neither \nof these groups",
+           family = "Arial",
+           size = 3.5) +
+  coord_fixed() +
+  labs(title = "What is the overlap of modifiable risk factors in the CTS?",
+       caption = "This chart includes participants who responded to the 
+       exercise and smoking habits questions on the baseline survey. 
+      \nDefinitions: no exercise: 0 hours/week; 
+       ever smoker: current or former smoker") +
+  theme(plot.caption = element_markdown(size=10, color="gray30",hjust= 0.45),
+        plot.title = element_text(size = 20, color = "gray30", hjust = 0.5),
+        plot.margin = unit(c(.5,.1,.5,.1), 'cm'))
+```
+
+##### Files in this folder:
+
+- .png file: image of the viz of the month
+- .Rmd file: the code used to create this document
+- .html file: a downloadable version of this document
