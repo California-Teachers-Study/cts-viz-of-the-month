@@ -13,6 +13,8 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+![](cms-cancer-population.png)
+
 ### Packages used
 
 ```{r packages, eval=FALSE}

@@ -2,7 +2,10 @@
 Emma Spielfogel
 2024-11-11
 
+![](cms-cancer-population.png)
+
 ### Packages used
+
 
 ``` r
 library(tidyverse)
