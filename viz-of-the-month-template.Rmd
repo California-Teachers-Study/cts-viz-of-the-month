@@ -13,6 +13,8 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+![](insert-viz-filename-here.png)
+
 ### Packages used
 ```{r packages, eval=FALSE}
 # list packages here
