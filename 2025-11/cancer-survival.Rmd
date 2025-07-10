@@ -41,7 +41,7 @@ cancer_survival %>%
   geom_waffle(color = "white",
               size = .2,
               n_rows = 10,
-              flip = FALSE,
+              flip = TRUE,
               na.rm=FALSE, 
               radius = unit(2, "pt")) +
   facet_wrap(~cancer_site_group,
